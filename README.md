@@ -3,5 +3,5 @@ a simple software to transfer files via the network, without requiring wifi, for
 
 
 ## TODO
-[ ] Add encryption <br>
-[ ] Add android app
+- [ ] Add encryption <br>
+- [ ] Add android app
