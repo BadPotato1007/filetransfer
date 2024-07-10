@@ -25,6 +25,8 @@
                 link.onclick = (event) => {
                     event.preventDefault();  // Prevent the default link behavior
                     downloadFile(file);
+                    alert('File downloaded successfully!');
+                    onClick=history.go(0);
                 };
                 listItem.appendChild(link);
                 fileList.appendChild(listItem);
