@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Server</title>
+</head>
+<body>
+    <h1>Available Files</h1>
+    <ul id="file-list">
+        <!-- File links will be populated here -->
+    </ul>
+
+    <script>
+        async function fetchFiles() {
+            const response = await fetch('/files');
+            const files = await response.json();
+            const fileList = document.getElementById('file-list');
+            fileList.innerHTML = '';
+            files.forEach(file => {
+                const listItem = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = `/${file}`;
+                link.innerText = file;
+                link.onclick = (event) => {
+                    event.preventDefault();  // Prevent the default link behavior
+                    downloadFile(file);
+                };
+                listItem.appendChild(link);
+                fileList.appendChild(listItem);
+            });
+        }
+
+        function downloadFile(file) {
+            fetch(`http://localhost:8001/download?file=${file}`);
+        }
+
+        fetchFiles();
+    </script>
+</body>
+</html>

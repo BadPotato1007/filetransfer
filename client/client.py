@@ -1,4 +1,19 @@
+from flask import Flask, request, send_from_directory
 import requests
+import os
+
+app = Flask(__name__)
+DOWNLOAD_DIR = os.getcwd()
+
+@app.route('/download', methods=['GET'])
+def download():
+    file_name = request.args.get('file')
+    if file_name:
+        url = f"http://localhost:8000/{file_name}"
+        local_filename = os.path.join(DOWNLOAD_DIR, file_name)
+        download_file(url, local_filename)
+        return f"Downloading {file_name}", 200
+    return "No file specified", 400
 
 def download_file(url, local_filename):
     with requests.get(url, stream=True) as r:
@@ -9,8 +24,4 @@ def download_file(url, local_filename):
     print(f"Downloaded {local_filename}")
 
 if __name__ == "__main__":
-    server_ip = "localhost" 
-    port = 8000
-    file_name = "file_to_send.txt"
-    url = f"http://{server_ip}:{port}/{file_name}"
-    download_file(url, file_name)
+    app.run(port=8001)
